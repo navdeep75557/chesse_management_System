@@ -1,0 +1,91 @@
+// Prisma schema for the Chess Tournament Management System.
+// Run `npx prisma migrate dev` to create/update the database and
+// `npx prisma generate` to (re)generate the client.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TournamentStatus {
+  upcoming
+  ongoing
+  completed
+}
+
+model Player {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  rating    Int      @default(1200)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tournamentEntries TournamentPlayer[]
+
+  // A player can appear in a match as player1, player2, or winner.
+  // Distinct relation names are required since there are three FKs to Player.
+  matchesAsPlayer1 Match[] @relation("MatchPlayer1")
+  matchesAsPlayer2 Match[] @relation("MatchPlayer2")
+  matchesWon       Match[] @relation("MatchWinner")
+
+  @@map("players")
+}
+
+model Tournament {
+  id         Int              @id @default(autoincrement())
+  name       String
+  startDate  DateTime         @map("start_date")
+  endDate    DateTime         @map("end_date")
+  status     TournamentStatus @default(upcoming)
+  maxPlayers Int              @map("max_players")
+  createdAt  DateTime         @default(now()) @map("created_at")
+
+  players TournamentPlayer[]
+  matches Match[]
+
+  @@index([status])
+  @@map("tournaments")
+}
+
+// Many-to-many join table between Tournament and Player.
+model TournamentPlayer {
+  id           Int      @id @default(autoincrement())
+  tournamentId Int      @map("tournament_id")
+  playerId     Int      @map("player_id")
+  enrolledAt   DateTime @default(now()) @map("enrolled_at")
+
+  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  player     Player     @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  // A player can only be enrolled once per tournament.
+  @@unique([tournamentId, playerId])
+  @@index([playerId])
+  @@map("tournament_players")
+}
+
+model Match {
+  id           Int       @id @default(autoincrement())
+  tournamentId Int       @map("tournament_id")
+  player1Id    Int       @map("player1_id")
+  // Nullable: a null player2 represents a "bye" (odd player count in the round).
+  player2Id    Int?      @map("player2_id")
+  // Nullable until a result has been recorded (or auto-set to player1 for a bye).
+  winnerId     Int?      @map("winner_id")
+  round        Int
+  playedAt     DateTime? @map("played_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  player1    Player     @relation("MatchPlayer1", fields: [player1Id], references: [id], onDelete: Cascade)
+  player2    Player?    @relation("MatchPlayer2", fields: [player2Id], references: [id], onDelete: Cascade)
+  winner     Player?    @relation("MatchWinner", fields: [winnerId], references: [id], onDelete: Cascade)
+
+  @@index([tournamentId, round])
+  @@index([player1Id])
+  @@index([player2Id])
+  @@map("matches")
+}
