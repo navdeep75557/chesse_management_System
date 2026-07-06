@@ -55,9 +55,9 @@
 	}
 </script>
 
-<form onsubmit={handleSubmit} class="space-y-4 max-w-md">
+<form onsubmit={handleSubmit} class="space-y-5 max-w-md">
 	{#if errors.form}
-		<p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+		<p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
 			{errors.form}
 		</p>
 	{/if}
@@ -68,25 +68,23 @@
 			id="name"
 			type="text"
 			bind:value={name}
-			class="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+			class="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition-shadow"
 			class:border-red-400={errors.name}
-			class:border-slate-300={!errors.name}
+			class:border-slate-200={!errors.name}
 		/>
 		{#if errors.name}<p class="text-xs text-red-600 mt-1">{errors.name}</p>{/if}
 	</div>
 
 	<div class="grid grid-cols-2 gap-4">
 		<div>
-			<label for="startDate" class="block text-sm font-medium text-slate-700 mb-1"
-				>Start date</label
-			>
+			<label for="startDate" class="block text-sm font-medium text-slate-700 mb-1">Start date</label>
 			<input
 				id="startDate"
 				type="date"
 				bind:value={startDate}
-				class="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+				class="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition-shadow"
 				class:border-red-400={errors.startDate}
-				class:border-slate-300={!errors.startDate}
+				class:border-slate-200={!errors.startDate}
 			/>
 			{#if errors.startDate}<p class="text-xs text-red-600 mt-1">{errors.startDate}</p>{/if}
 		</div>
@@ -96,27 +94,25 @@
 				id="endDate"
 				type="date"
 				bind:value={endDate}
-				class="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+				class="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition-shadow"
 				class:border-red-400={errors.endDate}
-				class:border-slate-300={!errors.endDate}
+				class:border-slate-200={!errors.endDate}
 			/>
 			{#if errors.endDate}<p class="text-xs text-red-600 mt-1">{errors.endDate}</p>{/if}
 		</div>
 	</div>
 
 	<div>
-		<label for="maxPlayers" class="block text-sm font-medium text-slate-700 mb-1"
-			>Max players</label
-		>
+		<label for="maxPlayers" class="block text-sm font-medium text-slate-700 mb-1">Max players</label>
 		<input
 			id="maxPlayers"
 			type="number"
 			min="2"
 			step="1"
 			bind:value={maxPlayers}
-			class="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+			class="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition-shadow"
 			class:border-red-400={errors.maxPlayers}
-			class:border-slate-300={!errors.maxPlayers}
+			class:border-slate-200={!errors.maxPlayers}
 		/>
 		{#if errors.maxPlayers}<p class="text-xs text-red-600 mt-1">{errors.maxPlayers}</p>{/if}
 	</div>
@@ -127,7 +123,7 @@
 			<select
 				id="status"
 				bind:value={status}
-				class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+				class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition-shadow"
 			>
 				<option value="upcoming">Upcoming</option>
 				<option value="ongoing">Ongoing</option>
@@ -140,7 +136,7 @@
 	<button
 		type="submit"
 		disabled={submitting}
-		class="rounded-md bg-slate-900 text-white text-sm font-medium px-4 py-2 hover:bg-slate-800 disabled:opacity-50 cursor-pointer"
+		class="rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-medium px-5 py-2.5 shadow-md shadow-indigo-200 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-50 disabled:translate-y-0 cursor-pointer transition-all"
 	>
 		{submitting ? 'Saving...' : submitLabel}
 	</button>
