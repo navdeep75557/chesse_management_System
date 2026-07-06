@@ -36,9 +36,9 @@
 	}
 </script>
 
-<form onsubmit={handleSubmit} class="space-y-4 max-w-md">
+<form onsubmit={handleSubmit} class="space-y-5 max-w-md">
 	{#if errors.form}
-		<p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+		<p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
 			{errors.form}
 		</p>
 	{/if}
@@ -49,9 +49,9 @@
 			id="name"
 			type="text"
 			bind:value={name}
-			class="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+			class="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition-shadow"
 			class:border-red-400={errors.name}
-			class:border-slate-300={!errors.name}
+			class:border-slate-200={!errors.name}
 		/>
 		{#if errors.name}<p class="text-xs text-red-600 mt-1">{errors.name}</p>{/if}
 	</div>
@@ -62,9 +62,9 @@
 			id="email"
 			type="email"
 			bind:value={email}
-			class="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+			class="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition-shadow"
 			class:border-red-400={errors.email}
-			class:border-slate-300={!errors.email}
+			class:border-slate-200={!errors.email}
 		/>
 		{#if errors.email}<p class="text-xs text-red-600 mt-1">{errors.email}</p>{/if}
 	</div>
@@ -77,9 +77,9 @@
 			min="1"
 			step="1"
 			bind:value={rating}
-			class="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+			class="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition-shadow"
 			class:border-red-400={errors.rating}
-			class:border-slate-300={!errors.rating}
+			class:border-slate-200={!errors.rating}
 		/>
 		{#if errors.rating}<p class="text-xs text-red-600 mt-1">{errors.rating}</p>{/if}
 	</div>
@@ -87,7 +87,7 @@
 	<button
 		type="submit"
 		disabled={submitting}
-		class="rounded-md bg-slate-900 text-white text-sm font-medium px-4 py-2 hover:bg-slate-800 disabled:opacity-50 cursor-pointer"
+		class="rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-medium px-5 py-2.5 shadow-md shadow-indigo-200 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-50 disabled:translate-y-0 cursor-pointer transition-all"
 	>
 		{submitting ? 'Saving...' : submitLabel}
 	</button>
