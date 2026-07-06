@@ -29,28 +29,36 @@
 </script>
 
 <div class="flex items-center justify-between mb-6">
-	<h1 class="text-2xl font-bold text-slate-900">Tournaments</h1>
+	<div>
+		<h1 class="font-display text-2xl font-bold text-slate-900">Tournaments</h1>
+		<p class="text-sm text-slate-500 mt-0.5">{data.tournaments.length} total</p>
+	</div>
 	<a
 		href="/tournaments/new"
-		class="rounded-md bg-slate-900 text-white text-sm font-medium px-4 py-2 hover:bg-slate-800"
+		class="rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-medium px-5 py-2.5 shadow-md shadow-indigo-200 hover:shadow-lg hover:-translate-y-0.5 transition-all"
 	>
 		+ New Tournament
 	</a>
 </div>
 
 {#if data.tournaments.length === 0}
-	<div class="rounded-xl border border-dashed border-slate-300 bg-white p-10 text-center">
+	<div class="rounded-2xl border border-dashed border-slate-300 bg-white/60 p-12 text-center">
+		<div class="w-14 h-14 rounded-full bg-purple-50 grid place-items-center text-2xl mx-auto mb-3">
+			&#127942;
+		</div>
 		<p class="text-slate-500">No tournaments yet.</p>
-		<a href="/tournaments/new" class="text-slate-900 font-medium underline mt-2 inline-block"
+		<a href="/tournaments/new" class="text-indigo-600 font-medium hover:underline mt-2 inline-block"
 			>Create your first tournament</a
 		>
 	</div>
 {:else}
 	<div class="grid gap-4 sm:grid-cols-2">
 		{#each data.tournaments as t (t.id)}
-			<div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+			<div
+				class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:border-indigo-200 transition-all duration-300"
+			>
 				<div class="flex items-start justify-between gap-2">
-					<a href="/tournaments/{t.id}" class="font-semibold text-slate-900 hover:underline"
+					<a href="/tournaments/{t.id}" class="font-semibold text-slate-900 group-hover:text-indigo-600"
 						>{t.name}</a
 					>
 					<span class="rounded-full px-2 py-0.5 text-xs font-medium shrink-0 {statusStyles[t.status]}"
@@ -62,14 +70,25 @@
 						t.endDate
 					).toLocaleDateString()}
 				</p>
-				<p class="text-sm text-slate-500">{t.playerCount} / {t.maxPlayers} players enrolled</p>
-				<div class="mt-3 flex gap-3 text-sm">
-					<a href="/tournaments/{t.id}" class="text-slate-600 hover:text-slate-900">View</a>
-					<a href="/tournaments/{t.id}/edit" class="text-slate-600 hover:text-slate-900">Edit</a>
+				<div class="mt-3">
+					<div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+						<span>Players</span>
+						<span>{t.playerCount} / {t.maxPlayers}</span>
+					</div>
+					<div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">
+						<div
+							class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"
+							style="width: {Math.min(100, (t.playerCount / t.maxPlayers) * 100)}%"
+						></div>
+					</div>
+				</div>
+				<div class="mt-4 flex gap-3 text-sm">
+					<a href="/tournaments/{t.id}" class="text-slate-500 hover:text-indigo-600">View</a>
+					<a href="/tournaments/{t.id}/edit" class="text-slate-500 hover:text-indigo-600">Edit</a>
 					<button
 						onclick={() => handleDelete(t.id, t.name)}
 						disabled={deletingId === t.id}
-						class="text-red-600 hover:text-red-800 disabled:opacity-50 cursor-pointer ml-auto"
+						class="text-red-500 hover:text-red-700 disabled:opacity-50 cursor-pointer ml-auto"
 					>
 						{deletingId === t.id ? 'Deleting…' : 'Delete'}
 					</button>
